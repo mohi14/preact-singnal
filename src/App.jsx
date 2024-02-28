@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import Counter from './Counter'
-import { signal } from '@preact/signals-react';
+import { batch, effect, signal } from '@preact/signals-react';
 
 function App() {
   console.log("rendering app...");
@@ -9,8 +9,20 @@ function App() {
 
 
   const count = signal(0)   // declaring initial state
+  const double = signal(0)
 
   const update = (val) => count.value += val //modifing the state value
+
+  // const update = (val) => {
+  //   batch(() => {
+  //     count.value += val;
+  //     double.value = count.value * 2  //here by the batch function updating 2 signal value with one function
+  //   })
+  // }
+
+
+  effect(() => console.log(`Updated count is ${count.value}`)) //it will render and show the console.log
+  effect(() => console.log(`Hello world`)) //it will not render, because there is no signal value.
 
   return (
     <div
@@ -20,7 +32,7 @@ function App() {
     >
       {/* <Counter /> */}
       <h1>Count: {count}</h1>
-      {/* <h1>Double: {double}</h1> */}
+      <h1>Double: {double}</h1>
 
       <div
         style={{
