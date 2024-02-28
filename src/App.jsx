@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import Counter from './Counter'
-import { batch, effect, signal } from '@preact/signals-react';
+import { batch, computed, effect, signal } from '@preact/signals-react';
 
 function App() {
   console.log("rendering app...");
@@ -9,7 +9,9 @@ function App() {
 
 
   const count = signal(0)   // declaring initial state
-  const double = signal(0)
+  // const double = signal(0)
+
+  const double = computed(() => count.value * 2) //automaticaly change according to the selected signal value changing
 
   const update = (val) => count.value += val //modifing the state value
 
